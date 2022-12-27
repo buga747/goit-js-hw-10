@@ -16,7 +16,7 @@ refs.input.addEventListener('input', debounce(onCountryInput, DEBOUNCE_DELAY));
 
 function onCountryInput() {
   const countryName = refs.input.value.trim();
-  console.log('countryName:', countryName);
+  // console.log('countryName:', countryName);
 
   if (!countryName) {
     refs.info.innerHTML = '';
@@ -53,7 +53,7 @@ function onCountryMarkup(country) {
         <p class="country-text-info">Languages: ${Object.values(languages)} </p>
         `
     )
-    .join();
+    .join('');
 }
 
 function onCountiesListMarkup(countries) {
