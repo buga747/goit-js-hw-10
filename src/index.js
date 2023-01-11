@@ -19,22 +19,26 @@ function onCountryInput() {
   // console.log('countryName:', countryName);
 
   if (!countryName) {
-    refs.info.innerHTML = '';
-    refs.list.innerHTML = '';
+    clearBody();
   }
 
   fetchCountries(countryName)
     .then(countries => {
+      clearBody();
       if (countries.length > 10) {
-        refs.list.innerHTML = '';
-        refs.info.innerHTML = '';
+        clearBody();
         alertTooManyMatches();
+        return;
       } else if (countries.length === 1) {
         refs.list.innerHTML = '';
         refs.info.innerHTML = onCountryMarkup(countries);
-      } else {
+        return;
+      } else if (countries.length > 1 && countries.length < 10) {
         refs.info.innerHTML = '';
         refs.list.innerHTML = onCountiesListMarkup(countries);
+        return;
+      } else if (!countries.includes(countryName)) {
+        clearBody();
       }
     })
     .catch(alertWrongName);
@@ -72,4 +76,11 @@ function alertTooManyMatches() {
 
 function alertWrongName() {
   Notify.failure('Oops, there is no country with that name');
+  clearBody();
+  return;
+}
+
+function clearBody() {
+  refs.info.innerHTML = '';
+  refs.list.innerHTML = '';
 }
